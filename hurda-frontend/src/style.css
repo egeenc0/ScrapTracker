@@ -1,27 +1,50 @@
+:root {
+  --color-bg: #eef1f6;
+  --color-surface: #ffffff;
+  --color-primary: #1a1a2e;
+  --color-primary-soft: #252542;
+  --color-accent: #3d5a80;
+  --color-border: #e2e6ef;
+  --shadow-sm: 0 1px 3px rgba(26, 26, 46, 0.06);
+  --shadow-md: 0 4px 24px rgba(26, 26, 46, 0.12);
+  --radius: 10px;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background: #f0f2f5;
-  color: #333;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--color-bg);
+  color: #2c3e50;
+  line-height: 1.5;
+}
+
+::selection {
+  background: rgba(61, 90, 128, 0.22);
 }
 
 .navbar {
-  background: #1a1a2e;
+  background: linear-gradient(135deg, var(--color-primary) 0%, #16213e 100%);
   color: white;
-  padding: 12px 24px;
+  padding: 14px 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: var(--shadow-sm);
 }
 
 .brand {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 .nav-right {
@@ -41,27 +64,47 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  padding: 24px;
+  background:
+    radial-gradient(ellipse 120% 80% at 50% -20%, rgba(61, 90, 128, 0.35), transparent),
+    linear-gradient(160deg, #1a1a2e 0%, #0f3460 45%, #16213e 100%);
 }
 
 .login-card {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  width: 380px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+  background: var(--color-surface);
+  padding: 42px 40px 40px;
+  border-radius: var(--radius);
+  width: 100%;
+  max-width: 400px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: linear-gradient(90deg, #3d5a80, #5dade2, #3d5a80);
 }
 
 .login-card h1 {
   text-align: center;
-  color: #1a1a2e;
-  margin-bottom: 4px;
+  color: var(--color-primary);
+  margin-bottom: 6px;
+  font-weight: 700;
+  font-size: 1.65rem;
 }
 
 .subtitle {
   text-align: center;
-  color: #888;
-  margin-bottom: 24px;
+  color: #6b7280;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
 }
 
 .form-group {
@@ -126,9 +169,16 @@ body {
 .btn-primary {
   width: 100%;
   padding: 12px;
-  background: #1a1a2e;
+  background: linear-gradient(180deg, #252542 0%, var(--color-primary) 100%);
   color: white;
   font-size: 1rem;
+  font-weight: 600;
+  margin-top: 4px;
+}
+
+.btn-primary:hover:not(:disabled) {
+  opacity: 1;
+  filter: brightness(1.08);
 }
 
 .btn-logout {
@@ -153,14 +203,31 @@ body {
 
 /* Table */
 .container {
-  padding: 24px;
+  padding: 28px 24px 40px;
   max-width: min(1600px, 96vw);
   margin: 0 auto;
 }
 
-.container h2 {
-  margin-bottom: 16px;
-  color: #1a1a2e;
+.page-header {
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.container h2,
+.page-header h2 {
+  margin: 0 0 6px;
+  color: var(--color-primary);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.page-header .page-lead {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #64748b;
+  max-width: 52rem;
 }
 
 .search-row {
@@ -206,10 +273,11 @@ body {
   width: 100%;
   min-width: 1100px;
   border-collapse: collapse;
-  background: white;
-  border-radius: 8px;
+  background: var(--color-surface);
+  border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-border);
   table-layout: fixed;
 }
 
@@ -284,8 +352,12 @@ body {
   overflow-wrap: break-word;
 }
 
+.hurda-table tbody tr {
+  transition: background 0.15s ease;
+}
+
 .hurda-table tr:hover {
-  background: #f8f9fa;
+  background: #f1f5f9;
 }
 
 .edit-input {

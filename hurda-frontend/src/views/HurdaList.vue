@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-    <h2>Hurda Listesi</h2>
+    <header class="page-header">
+      <h2>Hurda listesi</h2>
+      <p class="page-lead">
+        Malzeme tanımlarını görüntüleyin; admin olarak hurda sayısını güncelleyebilirsiniz.
+      </p>
+    </header>
 
     <div class="search-row">
       <div class="search-group">

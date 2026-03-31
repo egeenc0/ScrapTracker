@@ -1,0 +1,301 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
+  color: #333;
+}
+
+.navbar {
+  background: #1a1a2e;
+  color: white;
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-info {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+/* Login */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.login-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  width: 380px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.login-card h1 {
+  text-align: center;
+  color: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #888;
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #1a1a2e;
+}
+
+.error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+
+.message {
+  margin-top: 16px;
+  padding: 10px;
+  background: #d4edda;
+  color: #155724;
+  border-radius: 6px;
+  text-align: center;
+}
+
+/* Buttons */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.85;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: #1a1a2e;
+  color: white;
+  font-size: 1rem;
+}
+
+.btn-logout {
+  background: #e74c3c;
+  color: white;
+}
+
+.btn-edit {
+  background: #3498db;
+  color: white;
+}
+
+.btn-save {
+  background: #27ae60;
+  color: white;
+}
+
+.btn-cancel {
+  background: #95a5a6;
+  color: white;
+}
+
+/* Table */
+.container {
+  padding: 24px;
+  max-width: min(1600px, 96vw);
+  margin: 0 auto;
+}
+
+.container h2 {
+  margin-bottom: 16px;
+  color: #1a1a2e;
+}
+
+.search-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.search-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.search-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #555;
+  margin-bottom: 6px;
+  text-align: right;
+}
+
+.search-input {
+  width: 260px;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #1a1a2e;
+}
+
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hurda-table {
+  width: 100%;
+  min-width: 1100px;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  table-layout: fixed;
+}
+
+.hurda-table th {
+  background: #1a1a2e;
+  color: white;
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 0.88rem;
+}
+
+.hurda-table th.col-id {
+  width: 6%;
+  min-width: 72px;
+}
+
+.hurda-table th.col-name {
+  width: 18%;
+  min-width: 160px;
+}
+
+.hurda-table th.col-desc {
+  width: 28%;
+  min-width: 220px;
+}
+
+.hurda-table th.col-price {
+  width: 12%;
+  min-width: 120px;
+}
+
+.hurda-table th.col-scrap {
+  width: 12%;
+  min-width: 110px;
+}
+
+.hurda-table th.col-date {
+  width: 14%;
+  min-width: 130px;
+}
+
+.hurda-table th.col-actions {
+  width: 10%;
+  min-width: 140px;
+}
+
+.hurda-table th.th-sortable {
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.hurda-table th.th-sortable:hover {
+  background: #252542;
+}
+
+.hurda-table th.th-sort-active {
+  background: #2a2a48;
+}
+
+.hurda-table th .sort-indicator {
+  font-size: 0.7rem;
+  opacity: 0.95;
+}
+
+.hurda-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid #eee;
+  font-size: 0.9rem;
+  vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.hurda-table tr:hover {
+  background: #f8f9fa;
+}
+
+.edit-input {
+  width: 80px;
+  padding: 4px 8px;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 6px;
+}

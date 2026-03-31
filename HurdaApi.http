@@ -1,0 +1,17 @@
+@baseUrl = http://localhost:5283
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "123456"
+}
+### Update Hurda Item (Admin)
+PUT {{baseUrl}}/api/hurda/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzc0NDQzMDg5LCJleHAiOjE3NzQ0NDY2ODksImlhdCI6MTc3NDQ0MzA4OSwiaXNzIjoiSHVyZGFBcGkiLCJhdWQiOiJIdXJkYUNsaWVudCJ9.Not5OE-ve75y4yx_R4w7GDJr-MHnDdV-kol5qVgQq08
+{
+  "quantity": 999
+}

@@ -21,8 +21,9 @@ public class TokenService
         {
             Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                // Program.cs NameClaimType / RoleClaimType ile aynı kısa isimler (JWT okunabilirliği)
+                new Claim("name", user.Username),
+                new Claim("role", user.Role),
             }),
             Expires = DateTime.UtcNow.AddHours(1),
             Issuer = _configuration["Jwt:Issuer"],

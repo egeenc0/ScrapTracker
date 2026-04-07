@@ -8,10 +8,24 @@ Content-Type: application/json
     "username": "admin",
     "password": "123456"
 }
+
+### Add Hurda item — Yeni eşya ekle (Admin)
+# Token'ı login yanıtından yapıştırın.
+POST {{baseUrl}}/api/hurda/items
+Content-Type: application/json
+Authorization: Bearer REPLACE_WITH_JWT
+
+{
+  "name": "Örnek malzeme",
+  "description": "Kod: 0008002 | Kalıp: C000007391 | Cavity: A-B",
+  "scrapAmount": 0
+}
+
 ### Update Hurda Item (Admin)
 PUT {{baseUrl}}/api/hurda/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImFkbWluIiwicm9sZSI6IkFkbWluIiwibmJmIjoxNzc0NDQzMDg5LCJleHAiOjE3NzQ0NDY2ODksImlhdCI6MTc3NDQ0MzA4OSwiaXNzIjoiSHVyZGFBcGkiLCJhdWQiOiJIdXJkYUNsaWVudCJ9.Not5OE-ve75y4yx_R4w7GDJr-MHnDdV-kol5qVgQq08
+Authorization: Bearer REPLACE_WITH_JWT
+
 {
-  "quantity": 999
+  "scrapAmount": 10
 }

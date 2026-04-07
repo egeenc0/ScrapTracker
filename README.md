@@ -78,7 +78,7 @@ HurdaProje/
 ├── appsettings.json
 └── hurda-frontend/       # Vue app (Vite)
     └── src/
-        ├── views/        # Login, HurdaList
+        ├── views/        # Login, HurdaList, HurdaAdd
         ├── api.js        # Axios base URL + token interceptor
         └── router.js     # Routes and auth guard
 ```
@@ -131,6 +131,7 @@ You can exercise endpoints via Postman, the included `.http` file, or the Vue cl
 |--------|------|------|-------------|
 | POST | `/api/auth/login` | None | Body: `{ "username", "password" }` → JWT |
 | GET | `/api/hurda` | Bearer | All scrap items |
+| POST | `/api/hurda/items` | **Admin** | Body: [`AddHurdaItemDto`](Dtos/AddHurdaItemDto.cs) — create item (Yeni eşya ekle) |
 | PUT | `/api/hurda/{id}` | **Admin** | Body: `{ "scrapAmount" }` — update scrap count |
 
 CORS allows `http://localhost:5173` and `http://localhost:5174` for local development.

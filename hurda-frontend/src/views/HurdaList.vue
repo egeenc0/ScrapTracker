@@ -2,49 +2,12 @@
   <div class="container">
     <header class="page-header">
       <h2>Hurda listesi</h2>
-      <p class="page-lead">
-        Malzeme tanımlarını görüntüleyin; admin olarak hurda sayısını güncelleyebilirsiniz.
+      <p v-if="isAdmin" class="page-lead">
+        Malzeme tanımlarını görüntüleyin. Yeni kayıt için üst menüden «Yeni eşya ekle»; hurda
+        güncellemesi için satırdaki Düzenle.
       </p>
+      <p v-else class="page-lead">Malzeme tanımlarını görüntüleyin (salt okunur).</p>
     </header>
-
-    <div v-if="isAdmin" class="add-row-panel">
-      <h3 class="add-row-title">Yeni eşya ekle</h3>
-      <div class="add-row-grid">
-        <label class="add-field">
-          <span>Malzeme kodu</span>
-          <input v-model.trim="newItem.materialCode" type="text" placeholder="0008002" />
-        </label>
-        <label class="add-field">
-          <span>Kalıp kodu</span>
-          <input v-model.trim="newItem.moldCode" type="text" placeholder="C000007391" />
-        </label>
-        <label class="add-field">
-          <span>Cavity numarası</span>
-          <input v-model.trim="newItem.cavity" type="text" placeholder="A-B-C-D" />
-        </label>
-        <label class="add-field">
-          <span>Başlangıç hurda sayısı</span>
-          <input v-model.number="newItem.scrapAmount" type="number" min="0" />
-        </label>
-        <label class="add-field add-field-wide">
-          <span>Malzeme tanımı *</span>
-          <input v-model.trim="newItem.name" type="text" placeholder="Örn. HV CHIMNEY" />
-        </label>
-      </div>
-      <div class="add-row-actions">
-        <button
-          type="button"
-          class="btn btn-save"
-          :disabled="adding || !newItem.name"
-          @click="submitNewItem"
-        >
-          {{ adding ? 'Kaydediliyor…' : 'Ekle' }}
-        </button>
-        <button type="button" class="btn btn-cancel" :disabled="adding" @click="resetNewItem">
-          Temizle
-        </button>
-      </div>
-    </div>
 
     <div class="search-row">
       <div class="search-group">
@@ -166,14 +129,6 @@ export default {
       editingId: null,
       editScrapAmount: 0,
       message: '',
-      adding: false,
-      newItem: {
-        materialCode: '',
-        name: '',
-        moldCode: '',
-        cavity: '',
-        scrapAmount: 0,
-      },
     }
   },
  computed: {
@@ -218,11 +173,18 @@ export default {
     liste.sort(cmp)
     return liste
   },
-  isAdmin() {
+    isAdmin() {
       return localStorage.getItem('role') === 'Admin'
-    }, // <--- BURADAKİ VİRGÜL ÇOK ÖNEMLİ! İki fonksiyonu ayırıyor.
+    },
   },
   async mounted() {
+    if (this.$route.query.added === '1') {
+      this.message = 'Yeni kayıt eklendi.'
+      this.$router.replace({ path: '/hurda', query: {} })
+      setTimeout(() => {
+        this.message = ''
+      }, 2500)
+    }
     await this.fetchItems()
   },
   methods: {
@@ -295,47 +257,6 @@ export default {
     displayCavity(item) {
       const c = this.parseHurdaDescription(item.description).cavity
       return c || '—'
-    },
-    buildDescriptionFromParts(mc, mk, cav) {
-      const k = (mc || '').trim()
-      const m = (mk || '').trim()
-      const c = (cav || '').trim()
-      return `Kod: ${k} | Kalıp: ${m} | Cavity: ${c}`
-    },
-    resetNewItem() {
-      this.newItem = {
-        materialCode: '',
-        name: '',
-        moldCode: '',
-        cavity: '',
-        scrapAmount: 0,
-      }
-    },
-    async submitNewItem() {
-      if (!this.newItem.name) return
-      this.adding = true
-      try {
-        const description = this.buildDescriptionFromParts(
-          this.newItem.materialCode,
-          this.newItem.moldCode,
-          this.newItem.cavity
-        )
-        await api.post('/hurda', {
-          name: this.newItem.name,
-          description,
-          scrapAmount: Number(this.newItem.scrapAmount) || 0,
-        })
-        this.message = 'Yeni kayıt eklendi.'
-        this.resetNewItem()
-        await this.fetchItems()
-        setTimeout(() => {
-          this.message = ''
-        }, 2500)
-      } catch {
-        this.message = 'Eklenemedi (yetki veya sunucu hatası).'
-      } finally {
-        this.adding = false
-      }
     },
   },
 }

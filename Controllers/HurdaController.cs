@@ -25,7 +25,8 @@ public class HurdaController : ControllerBase
         return Ok(items);
     }
 
-    [HttpPost]
+    /// <summary>Yeni eşya ekle (Yeni eşya ekle paneli — ayrı rota).</summary>
+    [HttpPost("items")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> AddItem([FromBody] AddHurdaItemDto dto)
     {

@@ -42,9 +42,15 @@ export default {
           username: this.username,
           password: this.password,
         })
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('username', res.data.username)
-        localStorage.setItem('role', res.data.role)
+        const d = res.data
+        const token = d.token ?? d.Token
+        if (!token) {
+          this.error = 'Sunucu yanıtında token yok.'
+          return
+        }
+        localStorage.setItem('token', token)
+        localStorage.setItem('username', d.username ?? d.Username ?? '')
+        localStorage.setItem('role', d.role ?? d.Role ?? '')
         this.$router.push('/hurda')
       } catch {
         this.error = 'Kullanıcı adı veya şifre hatalı'

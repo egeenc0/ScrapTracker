@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using HurdaApi.Data;
 using HurdaApi.Dtos;
+using HurdaApi.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace HurdaApi.Controllers;
@@ -22,6 +23,28 @@ public class HurdaController : ControllerBase
     {
         var items = await _context.HurdaItems.ToListAsync();
         return Ok(items);
+    }
+
+    [HttpPost]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> AddItem([FromBody] AddHurdaItemDto dto)
+    {
+        if (string.IsNullOrWhiteSpace(dto.Name))
+            return BadRequest(new { message = "Malzeme tanımı zorunludur." });
+
+        var item = new HurdaItem
+        {
+            Name = dto.Name.Trim(),
+            Description = dto.Description ?? string.Empty,
+            Price = 0,
+            ScrapAmount = dto.ScrapAmount,
+            CreatedDate = DateTime.UtcNow,
+            CreatedBy = User.Identity?.Name ?? "admin",
+        };
+
+        _context.HurdaItems.Add(item);
+        await _context.SaveChangesAsync();
+        return Ok(item);
     }
 
     [HttpPut("{id}")]

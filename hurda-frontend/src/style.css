@@ -263,6 +263,90 @@ body {
   border-color: #1a1a2e;
 }
 
+.add-row-panel {
+  /* Boşluklar: başlık–grid, grid–butonlar burada */
+  --add-row-gap: 14px;
+  --add-row-pad-y: 18px;
+  --add-row-pad-x: 20px;
+
+  margin-bottom: 20px;
+  padding: var(--add-row-pad-y) var(--add-row-pad-x);
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e2e6ef);
+  border-radius: var(--radius, 10px);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(26, 26, 46, 0.06));
+}
+
+.add-row-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary, #1a1a2e);
+  margin: 0 0 var(--add-row-gap);
+  text-align: center;
+}
+
+.add-row-grid {
+  display: grid;
+  /* Kutular arası boşluk tek yerden: gap (yatay + dikey aynı) */
+  gap: var(--add-row-gap);
+  margin-bottom: var(--add-row-gap);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.add-field-wide {
+  grid-column: 1 / -1;
+}
+
+.add-field {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+  min-width: 0;
+  font-size: 0.8rem;
+  color: #555;
+  text-align: left;
+}
+
+.add-field span {
+  font-weight: 600;
+}
+
+.add-field input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+@media (max-width: 900px) {
+  .add-row-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .add-row-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.add-field input:focus {
+  outline: none;
+  border-color: #1a1a2e;
+}
+
+.add-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
 .table-scroll {
   width: 100%;
   overflow-x: auto;
@@ -285,7 +369,7 @@ body {
   background: #1a1a2e;
   color: white;
   padding: 14px 16px;
-  text-align: left;
+  text-align: center;
   font-size: 0.88rem;
 }
 
@@ -304,8 +388,8 @@ body {
   min-width: 220px;
 }
 
-.hurda-table th.col-price {
-  width: 12%;
+.hurda-table th.col-cavity {
+  width: 14%;
   min-width: 120px;
 }
 
@@ -315,8 +399,8 @@ body {
 }
 
 .hurda-table th.col-date {
-  width: 14%;
-  min-width: 130px;
+  width: 12%;
+  min-width: 118px;
 }
 
 .hurda-table th.col-actions {
@@ -347,9 +431,19 @@ body {
   padding: 14px 16px;
   border-bottom: 1px solid #eee;
   font-size: 0.9rem;
-  vertical-align: top;
+  vertical-align: middle;
+  text-align: center;
   word-wrap: break-word;
   overflow-wrap: break-word;
+}
+
+.hurda-table td.col-scrap .edit-input {
+  margin: 0 auto;
+  display: block;
+}
+
+.hurda-table td.col-actions .edit-actions {
+  justify-content: center;
 }
 
 .hurda-table tbody tr {

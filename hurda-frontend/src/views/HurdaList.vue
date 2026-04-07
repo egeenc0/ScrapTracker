@@ -7,6 +7,45 @@
       </p>
     </header>
 
+    <div v-if="isAdmin" class="add-row-panel">
+      <h3 class="add-row-title">Yeni eşya ekle</h3>
+      <div class="add-row-grid">
+        <label class="add-field">
+          <span>Malzeme kodu</span>
+          <input v-model.trim="newItem.materialCode" type="text" placeholder="0008002" />
+        </label>
+        <label class="add-field">
+          <span>Kalıp kodu</span>
+          <input v-model.trim="newItem.moldCode" type="text" placeholder="C000007391" />
+        </label>
+        <label class="add-field">
+          <span>Cavity numarası</span>
+          <input v-model.trim="newItem.cavity" type="text" placeholder="A-B-C-D" />
+        </label>
+        <label class="add-field">
+          <span>Başlangıç hurda sayısı</span>
+          <input v-model.number="newItem.scrapAmount" type="number" min="0" />
+        </label>
+        <label class="add-field add-field-wide">
+          <span>Malzeme tanımı *</span>
+          <input v-model.trim="newItem.name" type="text" placeholder="Örn. HV CHIMNEY" />
+        </label>
+      </div>
+      <div class="add-row-actions">
+        <button
+          type="button"
+          class="btn btn-save"
+          :disabled="adding || !newItem.name"
+          @click="submitNewItem"
+        >
+          {{ adding ? 'Kaydediliyor…' : 'Ekle' }}
+        </button>
+        <button type="button" class="btn btn-cancel" :disabled="adding" @click="resetNewItem">
+          Temizle
+        </button>
+      </div>
+    </div>
+
     <div class="search-row">
       <div class="search-group">
         <label for="material-search" class="search-label">Malzeme tanımında ara</label>
@@ -50,7 +89,7 @@
             <span class="sort-indicator" v-if="sortKey === 'moldCode'">{{ sortDir === 'asc' ? ' ▲' : ' ▼' }}</span>
           </th>
           <th
-            class="th-sortable col-price"
+            class="th-sortable col-cavity"
             :class="{ 'th-sort-active': sortKey === 'cavity' }"
             @click="setSort('cavity')"
           >
@@ -81,7 +120,7 @@
           <td class="col-id">{{ displayMaterialCode(item) }}</td>
           <td class="col-name">{{ item.name }}</td>
           <td class="col-desc">{{ displayMoldCode(item) }}</td>
-          <td class="col-price">{{ displayCavity(item) }}</td>
+          <td class="col-cavity">{{ displayCavity(item) }}</td>
           <td class="col-scrap">
             <span v-if="editingId !== item.id">{{ item.scrapAmount }}</span>
             <input
@@ -127,6 +166,14 @@ export default {
       editingId: null,
       editScrapAmount: 0,
       message: '',
+      adding: false,
+      newItem: {
+        materialCode: '',
+        name: '',
+        moldCode: '',
+        cavity: '',
+        scrapAmount: 0,
+      },
     }
   },
  computed: {
@@ -216,7 +263,7 @@ export default {
       }
     },
     formatDate(dateStr) {
-      if (!dateStr) return '-'
+      if (!dateStr) return '—'
       return new Date(dateStr).toLocaleDateString('tr-TR')
     },
     /** Beklenen: Kod: … | Kalıp: … | Cavity: … */
@@ -248,6 +295,47 @@ export default {
     displayCavity(item) {
       const c = this.parseHurdaDescription(item.description).cavity
       return c || '—'
+    },
+    buildDescriptionFromParts(mc, mk, cav) {
+      const k = (mc || '').trim()
+      const m = (mk || '').trim()
+      const c = (cav || '').trim()
+      return `Kod: ${k} | Kalıp: ${m} | Cavity: ${c}`
+    },
+    resetNewItem() {
+      this.newItem = {
+        materialCode: '',
+        name: '',
+        moldCode: '',
+        cavity: '',
+        scrapAmount: 0,
+      }
+    },
+    async submitNewItem() {
+      if (!this.newItem.name) return
+      this.adding = true
+      try {
+        const description = this.buildDescriptionFromParts(
+          this.newItem.materialCode,
+          this.newItem.moldCode,
+          this.newItem.cavity
+        )
+        await api.post('/hurda', {
+          name: this.newItem.name,
+          description,
+          scrapAmount: Number(this.newItem.scrapAmount) || 0,
+        })
+        this.message = 'Yeni kayıt eklendi.'
+        this.resetNewItem()
+        await this.fetchItems()
+        setTimeout(() => {
+          this.message = ''
+        }, 2500)
+      } catch {
+        this.message = 'Eklenemedi (yetki veya sunucu hatası).'
+      } finally {
+        this.adding = false
+      }
     },
   },
 }
